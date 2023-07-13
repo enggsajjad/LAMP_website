@@ -1,0 +1,286 @@
+sajjad@i80pc93:/var/www/domainname.com$ mysql -u root  -p                       
+Enter password:#sajjan2
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 32
+Server version: 8.0.33-0ubuntu0.20.04.2 (Ubuntu)
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql>
+mysql> show databases
+    -> ;
++--------------------+
+| Database           |
++--------------------+
+| company            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
+| test_company       |
++--------------------+
+6 rows in set (0.40 sec)
+
+mysql>
+mysql> create database murtaza;
+Query OK, 1 row affected (0.47 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| company            |
+| information_schema |
+| murtaza            |
+| mysql              |
+| performance_schema |
+| sys                |
+| test_company       |
++--------------------+
+7 rows in set (0.01 sec)
+
+mysql> use murtaza;
+Database changed
+mysql> CREATE TABLE rack (rackid INT AUTO_INCREMENT PRIMARY KEY, rname VARCHAR(50) UNIQUE, height INT, width INT, units INT);
+Query OK, 0 rows affected (1.25 sec)
+
+mysql> CREATE TABLE item (itemid INT AUTO_INCREMENT PRIMARY KEY,iname VARCHAR(50) UNIQUE,  rackid INT, HUL INT, HUN INT, chaining INT);
+Query OK, 0 rows affected (0.97 sec)
+
+mysql> CREATE TABLE energychain (chainid INT AUTO_INCREMENT PRIMARY KEY,cname VARCHAR(50) UNIQUE);
+Query OK, 0 rows affected (0.68 sec)
+
+mysql> CREATE TABLE cable (cableid INT AUTO_INCREMENT PRIMARY KEY,cname VARCHAR(50) UNIQUE, code INT, specs VARCHAR(50), source VARCHAR(50), destination VARCHAR(50), S.ID INT, D.ID INT, S.Port VARCHAR(20), D.Port VARCHAR(20),S.Unit INT, D.Unit INT, Adjustment INT, Length INT) ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual thatcorresponds to your MySQL server version for the right syntax to use near '.ID INT, D.ID INT, S.Port VARCHAR(20), D.Port VARCHAR(20),S.Unit INT, D.Unit INT' at line 1
+mysql> CREATE TABLE cable (cableid INT AUTO_INCREMENT PRIMARY KEY, cname VARCHAR(50) UNIQUE, code INT, specs VARCHAR(50), source VARCHAR(50), destination VARCHAR(50), sid INT, did INT, sport VARCHAR(20), dport VARCHAR(20),sunit INT, dunit INT, adjustment INT, length INT) ;
+Query OK, 0 rows affected (0.87 sec)
+
+mysql>
+mysql> INSERT INTO rack (rname, height, width, units) values ('electronics',180,50,38);
+Query OK, 1 row affected (0.13 sec)
+
+mysql> INSERT INTO rack (rname, height, width, units) values ('photonics',180,50,38);
+Query OK, 1 row affected (0.15 sec)
+
+mysql> describe rack;
++--------+-------------+------+-----+---------+----------------+
+| Field  | Type        | Null | Key | Default | Extra          |
++--------+-------------+------+-----+---------+----------------+
+| rackid | int         | NO   | PRI | NULL    | auto_increment |
+| rname  | varchar(50) | YES  | UNI | NULL    |                |
+| height | int         | YES  |     | NULL    |                |
+| width  | int         | YES  |     | NULL    |                |
+| units  | int         | YES  |     | NULL    |                |
++--------+-------------+------+-----+---------+----------------+
+5 rows in set (0.33 sec)
+
+mysql> select * from rack;
++--------+-------------+--------+-------+-------+
+| rackid | rname       | height | width | units |
++--------+-------------+--------+-------+-------+
+|      1 | electronics |    180 |    50 |    38 |
+|      2 | photonics   |    180 |    50 |    38 |
++--------+-------------+--------+-------+-------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO energychain (cname) values ('energychain');
+Query OK, 1 row affected (0.12 sec)
+
+mysql> INSERT INTO energychain (cname) values ('direct');
+Query OK, 1 row affected (0.13 sec)
+
+mysql> select * from energychain;
++---------+-------------+
+| chainid | cname       |
++---------+-------------+
+|       2 | direct      |
+|       1 | energychain |
++---------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO item (iname,  rackid, HUL, HUN, chaining) values ('touchscreen',1,26,13,2);
+Query OK, 1 row affected (0.09 sec)
+
+mysql> INSERT INTO item (iname,  rackid, HUL, HUN, chaining) values ('pc',1,8,2,2);
+Query OK, 1 row affected (0.10 sec)
+
+mysql> INSERT INTO item (iname,  rackid, HUL, HUN, chaining) values ('spt+sw',2,10,3,1);
+Query OK, 1 row affected (0.12 sec)
+
+mysql> INSERT INTO item (iname,  rackid, HUL, HUN, chaining) values ('syncro5ucom',1,13,5,2);
+Query OK, 1 row affected (0.11 sec)
+
+mysql> INSERT INTO cable ( cname code, specs, source, destination, sid, did, sport, dport,sunit, dunit, adjustment, length) values ('displayport',591212,'xyz','touchscreen','pc',1,2,'default','default',0,0,,0,0);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'code, specs, source, destination, sid, did, sport, dport,sunit, dunit, adjustmen' at line 1
+mysql> INSERT INTO cable ( cname, code, specs, source, destination, sid, did, sport, dport,sunit, dunit, adjustment, length) values ('displayport',591212,'xyz','touchscreen','pc',1,2,'default','default',0,0,,0,0);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',0,0)' at line 1
+mysql> INSERT INTO cable ( cname, code, specs, source, destination, sid, did, sport, dport,sunit, dunit, adjustment, length) values ('displayport',591212,'xyz','touchscreen','pc',1,2,'default','default',0,0,0,0);
+Query OK, 1 row affected (0.11 sec)
+
+mysql> INSERT INTO cable ( cname, code, specs, source, destination, sid, did, sport, dport,sunit, dunit, adjustment, length) values ('twocables',243242,'xyz','syncro5ucom','spt+cw',4,3,'default','default',0,0,0,0);
+Query OK, 1 row affected (0.13 sec)
+
+mysql> select * from item;
++--------+-------------+--------+------+------+----------+
+| itemid | iname       | rackid | HUL  | HUN  | chaining |
++--------+-------------+--------+------+------+----------+
+|      1 | touchscreen |      1 |   26 |   13 |        2 |
+|      2 | pc          |      1 |    8 |    2 |        2 |
+|      3 | spt+sw      |      2 |   10 |    3 |        1 |
+|      4 | syncro5ucom |      1 |   13 |    5 |        2 |
++--------+-------------+--------+------+------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from cable;
++---------+-------------+--------+-------+-------------+-------------+------+------+---------+---------+-------+-------+------------+--------+
+| cableid | cname       | code   | specs | source      | destination | sid  | did  | sport   | dport   | sunit | dunit | adjustment | length |
++---------+-------------+--------+-------+-------------+-------------+------+------+---------+---------+-------+-------+------------+--------+
+|       1 | displayport | 591212 | xyz   | touchscreen | pc          |    1 |    2 | default | default |     0 |     0 |          0 |      0 |
+|       2 | twocables   | 243242 | xyz   | syncro5ucom | spt+cw      |    4 |    3 | default | default |     0 |     0 |          0 |      0 |
++---------+-------------+--------+-------+-------------+-------------+------+------+---------+---------+-------+-------+------------+--------+
+2 rows in set (0.00 sec)
+
+mysql>
+mysql> exit
+Bye
+sajjad@i80pc93:/var/www/domainname.com$ ls
+config2.php  config.php  dbconnection.php  display_products.php  index.html  insert_products.php  readdata1.php  readdata.php  test.php  welcome.php
+sajjad@i80pc93:/var/www/domainname.com$ sudo cp config2.php config3.php
+[sudo] password for sajjad:
+sajjad@i80pc93:/var/www/domainname.com$ sudo vim config3.php
+sajjad@i80pc93:/var/www/domainname.com$ sudo cp readdata
+readdata1.php  readdata.php
+sajjad@i80pc93:/var/www/domainname.com$ sudo cp readdata.php
+[sudo] password for sajjad:
+sajjad@i80pc93:/var/www/domainname.com$ sudo vim readdata.php
+[sudo] password for sajjad:
+sajjad@i80pc93:/var/www/domainname.com$ sudo cp readdata.php readdata3.php
+sajjad@i80pc93:/var/www/domainname.com$ sudo vim readdata3.php
+sajjad@i80pc93:/var/www/domainname.com$ sudo vim readdata3.php
+sajjad@i80pc93:/var/www/domainname.com$
+sajjad@i80pc93:/var/www$ sudo cp -r domainname.com murtaza.com
+sajjad@i80pc93:/var/www$ sudo vim /etc/hosts
+sajjad@i80pc93:/var/www/murtaza.com$ head /etc/hosts 10
+==> /etc/hosts <==
+127.0.0.1       localhost
+127.0.1.1       i80pc93
+# 127.0.0.1     mypersonaldomain.com
+#141.3.72.86 website1-example.com
+#141.3.72.86 domainname.com
+141.3.72.86 murtaza.com
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+head: cannot open '10' for reading: No such file or directory
+sajjad@i80pc93:/var/www/murtaza.com$ while trying www.murtaza.com/readdata3.php does not show new data but shows data from domainname.com/readdata3.php
+sajjad@i80pc93:/var/www/murtaza.com$ sudo cp /etc/apache2/sites-available/domainname.com.conf /etc/apache2/sites-available/murtaza.com.conf
+sajjad@i80pc93:/var/www/murtaza.com$ sudo cp vim /etc/apache2/sites-available/murtaza.com.conf
+cp: cannot stat 'vim': No such file or directory
+sajjad@i80pc93:/var/www/murtaza.com$ sudo vim /etc/apache2/sites-available/murtaza.com.conf
+sajjad@i80pc93:/var/www/murtaza.com$ sudo cat /etc/apache2/sites-available/murtaza.com.conf
+<VirtualHost *:80>
+    ServerAdmin admin@murtaza.com
+    ServerName murtaza.com
+    ServerAlias www.murtaza.com
+    DocumentRoot /var/www/murtaza.com
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+sajjad@i80pc93:/var/www/murtaza.com$
+sajjad@i80pc93:/var/www/murtaza.com$ sudo a2ensite murtaza.com
+Enabling site murtaza.com.
+To activate the new configuration, you need to run:
+  systemctl reload apache2
+sajjad@i80pc93:/var/www/murtaza.com$ sudo a2dissite 000-default.conf
+Site 000-default already disabled
+sajjad@i80pc93:/var/www/murtaza.com$ sudo systemctl restart apache2
+sajjad@i80pc93:/var/www/murtaza.com$
+
+mysql> describe item;
++----------+-------------+------+-----+---------+----------------+
+| Field    | Type        | Null | Key | Default | Extra          |
++----------+-------------+------+-----+---------+----------------+
+| itemid   | int         | NO   | PRI | NULL    | auto_increment |
+| iname    | varchar(50) | YES  | UNI | NULL    |                |
+| rackid   | int         | YES  |     | NULL    |                |
+| HUL      | int         | YES  |     | NULL    |                |
+| HUN      | int         | YES  |     | NULL    |                |
+| chaining | int         | YES  |     | NULL    |                |
++----------+-------------+------+-----+---------+----------------+
+6 rows in set (0.06 sec)
+
+mysql> ALTER TABLE item ADD FOREIGN KEY F1(rackid) REFERENCES rack(rackid);
+Query OK, 4 rows affected (3.64 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> describe item;
++----------+-------------+------+-----+---------+----------------+
+| Field    | Type        | Null | Key | Default | Extra          |
++----------+-------------+------+-----+---------+----------------+
+| itemid   | int         | NO   | PRI | NULL    | auto_increment |
+| iname    | varchar(50) | YES  | UNI | NULL    |                |
+| rackid   | int         | YES  | MUL | NULL    |                |
+| HUL      | int         | YES  |     | NULL    |                |
+| HUN      | int         | YES  |     | NULL    |                |
+| chaining | int         | YES  |     | NULL    |                |
++----------+-------------+------+-----+---------+----------------+
+6 rows in set (0.00 sec)
+
+mysql> ALTER TABLE item ADD FOREIGN KEY F2(chaining) REFERENCES energychain(chainid);
+Query OK, 4 rows affected (2.60 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> describe item;
++----------+-------------+------+-----+---------+----------------+
+| Field    | Type        | Null | Key | Default | Extra          |
++----------+-------------+------+-----+---------+----------------+
+| itemid   | int         | NO   | PRI | NULL    | auto_increment |
+| iname    | varchar(50) | YES  | UNI | NULL    |                |
+| rackid   | int         | YES  | MUL | NULL    |                |
+| HUL      | int         | YES  |     | NULL    |                |
+| HUN      | int         | YES  |     | NULL    |                |
+| chaining | int         | YES  | MUL | NULL    |                |
++----------+-------------+------+-----+---------+----------------+
+6 rows in set (0.00 sec)
+
+mysql>
+mysql> select rname , height , width , units, cname ,  iname, HUL, HUN from rack r join item i on r.rackid=i.rackid join energychain e on i.chaining=e .chainid;
++-------------+--------+-------+-------+-------------+-------------+------+------+
+| rname       | height | width | units | cname       | iname       | HUL  | HUN  |
++-------------+--------+-------+-------+-------------+-------------+------+------+
+| electronics |    180 |    50 |    38 | direct      | syncro5ucom |   13 |    5 |
+| electronics |    180 |    50 |    38 | direct      | pc          |    8 |    2 |
+| electronics |    180 |    50 |    38 | direct      | touchscreen |   26 |   13 |
+| photonics   |    180 |    50 |    38 | energychain | spt+sw      |   10 |    3 |
++-------------+--------+-------+-------+-------------+-------------+------+------+
+4 rows in set (0.00 sec)
+
+mysql> select rname , height , width , units, cname ,  iname, HUL, HUN from rack r join item i on r.rackid=i.rackid join energychain e on i.chaining=e.chainid where itemid=1;
++-------------+--------+-------+-------+--------+-------------+------+------+
+| rname       | height | width | units | cname  | iname       | HUL  | HUN  |
++-------------+--------+-------+-------+--------+-------------+------+------+
+| electronics |    180 |    50 |    38 | direct | touchscreen |   26 |   13 |
++-------------+--------+-------+-------+--------+-------------+------+------+
+1 row in set (0.00 sec)
+
+mysql>
+
+mysql> select r.rackid, rname , height , width , units, cname ,  iname, HUL, HUN from rack r join item i on r.rackid=i.rackid join energychain e on i.chaining=e.chainid;
++--------+-------------+--------+-------+-------+-------------+-------------+------+------+
+| rackid | rname       | height | width | units | cname       | iname       | HUL  | HUN  |
++--------+-------------+--------+-------+-------+-------------+-------------+------+------+
+|      2 | photonics   |    180 |    50 |    38 | energychain | spt+sw      |   10 |    3 |
+|      1 | electronics |    180 |    50 |    38 | direct      | touchscreen |   26 |   13 |
+|      1 | electronics |    180 |    50 |    38 | direct      | pc          |    8 |    2 |
+|      1 | electronics |    180 |    50 |    38 | direct      | syncro5ucom |   13 |    5 |
++--------+-------------+--------+-------+-------+-------------+-------------+------+------+
+4 rows in set (0.00 sec)
+
+mysql>
